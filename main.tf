@@ -1,9 +1,32 @@
 /*
- * # wanted-cloud/terraform-module-template
+ * # wanted-cloud/terraform-network-ddos-protection-plan
  * 
- * This repository represents a template for a Terraform building block module as we think it should be done, so it's for sure opinionated but in our eyes simple and powerful. Feel free to use or contribute.
+ * Terraform building block module helping with management of DDOS protection plan used on Azure network resources.
  */
 
-/*
- * Here is perfect place for you main resource which should be created by this module. Use "this" as name for the main resource and its dependencies.
- */
+resource "azurerm_network_ddos_protection_plan" "this" {
+  name                = var.name
+  location            = var.location != "" ? var.location : data.azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
+
+  tags = merge(local.metadata.tags, var.tags)
+
+  timeouts {
+    create = try(
+      local.metadata.resource_timeouts["azurerm_network_ddos_protection_plan"]["create"],
+      local.metadata.resource_timeouts["default"]["create"]
+    )
+    read = try(
+      local.metadata.resource_timeouts["azurerm_network_ddos_protection_plan"]["read"],
+      local.metadata.resource_timeouts["default"]["read"]
+    )
+    update = try(
+      local.metadata.resource_timeouts["azurerm_network_ddos_protection_plan"]["update"],
+      local.metadata.resource_timeouts["default"]["update"]
+    )
+    delete = try(
+      local.metadata.resource_timeouts["azurerm_network_ddos_protection_plan"]["delete"],
+      local.metadata.resource_timeouts["default"]["delete"]
+    )
+  }
+}

@@ -29,11 +29,11 @@ content: |-
   
   > For more detailed examples navigate to `examples` folder of this repository.
 
-  Module was also published via Terraform Registry and can be used as a module from the registry.
+  Module was also published via Terraform Registry and can be used directly from the registry via following configuration.
 
   ```hcl
   module "example" {
-    source  = "wanted-cloud/..."
+    source  = "wanted-cloud/network-ddos-protection-plan/azure"
     version = "x.y.z"
   }
   ```
